@@ -11,10 +11,12 @@ class ScreenManager(object):
         self.game = GameEngine()
         self.state = ScreenManagerFSM(self)
         self.pausedText = TextEntry(vec(0,0),"Paused")
+        self.lose_text= TextEntry(vec(0,0), "You Lost! Press exc to quit.")
         
         size = self.pausedText.getSize()
         midpoint = RESOLUTION // 2 - size
         self.pausedText.position = vec(*midpoint)
+        self.lose_text.position = vec(*midpoint)
         
         self.mainMenu = EventMenu("forest.jpg", fontName="default8")
         self.mainMenu.addOption("start", "Press 1 to start Game",
@@ -33,6 +35,10 @@ class ScreenManager(object):
         
             if self.state == "paused":
                 self.pausedText.draw(drawSurf)
+            
+            if self.state == "lost":
+                #print("hi")
+                self.lose_text.draw(drawSurf)
         
         elif self.state == "mainMenu":
             self.mainMenu.draw(drawSurf)
@@ -43,6 +49,9 @@ class ScreenManager(object):
                 self.state.quitGame()
             elif event.type == KEYDOWN and event.key == K_p:
                 self.state.pause()
+            
+            # if len(self.game.active_targets) == len(self.game.targets):
+            #     self.state.lose()
                 
             else:
                 self.game.handleEvent(event)
@@ -58,6 +67,7 @@ class ScreenManager(object):
     def update(self, seconds):      
         if self.state == "game":
             self.game.update(seconds)
+            
         elif self.state == "mainMenu":
             self.mainMenu.update(seconds)
     

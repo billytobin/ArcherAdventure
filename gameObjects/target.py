@@ -26,13 +26,16 @@ class Target(Drawable):
    def update(self, seconds, arrow, end_update=None):
       super().update(seconds) 
 
-      hitBox = pygame.Rect((self.position), (self.image.get_width(), self.image.get_height()))
+      hitBox = self.getHitBox()
       arrow_hitBox = pygame.Rect((arrow.position), (arrow.image.get_width(), arrow.image.get_height()))
       #
       # print("hi")
       #print(hitBox.colliderect(arrow_hitBox))
       
       return hitBox.colliderect(arrow_hitBox)
+   
+   def getHitBox(self):
+      return pygame.Rect((self.position), (self.image.get_width(), self.image.get_height()))
          
       
       

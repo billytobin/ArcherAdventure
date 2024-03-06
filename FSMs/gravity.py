@@ -18,7 +18,7 @@ class GravityFSM(AbstractGameFSM):
     def __init__(self, obj):
         super().__init__(obj) 
         self.jumpTimer = 0
-        self.gravity = 200
+        self.gravity = 220
         self.jumpSpeed = 200
         self.jumpTime = 0.2
 

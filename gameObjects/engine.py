@@ -26,20 +26,28 @@ class GameEngine(object):
 
         self.ledge1 = pygame.Rect(0,360, 200,10)
         self.ledge2 = pygame.Rect(300,280,100,10)
+        self.ledge3 = pygame.Rect(100,200,100,10)
 
-        self.colliders = [self.floor,self.ledge1,self.ledge2]
+        self.colliders = [self.floor,self.ledge1,self.ledge2, self.ledge3]
 
         #targets 
         self.t1 = Target((10,200),1)
         self.t2=Target((50, 300),1)
         self.t3=Target((300,20),1)
-        
-        self.targets = [self.t1,self.t2, self.t3 ]#,self.t4,self.t5]
-        #self.active_targets=[self.t1,self.t2, self.t3]#,self.t4,self.t5]
-        #self.timer = 0.5
+        self.t4=Target((200,50),1)
+        self.t5=Target((390,70),1)
+        self.t6=Target((340,300),1)
 
-        #self.target_timer_max=.02
-        #self.target_timer=0
+
+        self.targets = [self.t1,self.t2, self.t3,self.t4,self.t5,self.t6]
+        self.active_targets=[]#[self.t1,self.t2, self.t3]#,self.t4,self.t5]
+        self.timer = 0.5
+
+        self.target_timer_max=1.5
+        self.target_timer=0
+
+        self.count=0
+        self.font = pygame.font.SysFont("Arial", 50)
 
         #arrows
         self.arrows = []
@@ -52,10 +60,14 @@ class GameEngine(object):
 
         for i in self.arrows:
             i.draw(drawSurface)
+
+        message = self.font.render(str(self.count), False, (0,0,0))
+
+        drawSurface.blit(message, (RESOLUTION[0]-(message.get_width()),0))
         
         
         #print(self.targets)
-        for i in self.targets:
+        for i in self.active_targets:
             i.draw(drawSurface)
 
         for i in self.colliders:
@@ -90,23 +102,27 @@ class GameEngine(object):
         self.archer.update(seconds, self.colliders)
 
         not_hit_arrows=[]
-        not_hit_targets = []
+        hit_targets = []
         for i in self.arrows:
             
-            hit_arrow=i.update(seconds, self.colliders, self.targets)
+            hit_arrow=i.update(seconds, self.colliders, self.active_targets)
 
             #print("97")
             
-            for j in self.targets:
+            for j in self.active_targets:
                 #print("hi"+ str(j))
                 hit_target = j.update(seconds, i)
-                if hit_target == False:
-                    self.targets.append(j)
+                #print("hi")
+                if hit_target == True:
+                    self.count+=1
+                    hit_targets.append(j)
             
             if hit_arrow == False:
                 not_hit_arrows.append(i)
-            
-        self.targets = not_hit_targets
+
+        for i in hit_targets:
+
+            self.active_targets.remove(i)
         
             
         #print("after update 111")
@@ -116,11 +132,13 @@ class GameEngine(object):
         #add new target every 3 seconds and
         #get complement of active targets and random targets
         #choose random
-        # if self.target_timer<0:
-        #     self.active_targets.append(random.choice(list(set(self.targets)-set(self.active_targets))))
-        #     self.target_timer=self.target_timer_max
-        # else:
-        #     self.target_timer -= seconds
+        if self.target_timer<0:
+             if len(self.active_targets)!= len(self.targets):
+                self.active_targets.append(random.choice(list(set(self.targets)-set(self.active_targets))))
+                #self.active_targets.append(random.choice(self.targets))
+                self.target_timer=self.target_timer_max
+        else:
+             self.target_timer -= seconds
 
         
 
