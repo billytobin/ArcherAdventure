@@ -18,7 +18,8 @@ class Arrow(Drawable):
 
       # self.angle = 0
       self.rotated_image = pygame.transform.rotate(self.image, angle*-180/np.pi)
-      
+      self.center = vec(*self.rotated_image.get_rect().center)
+
       #new velocity
       self.velocity = vec(np.cos(angle)*self.speed, np.sin(angle)* self.speed)
         
@@ -48,24 +49,32 @@ class Arrow(Drawable):
 
       #hit = self.doesCollideList(targets)
       #print("hi")
+      
+      #create a moving center based on the position and center of the rotated image      
+      moving_center = (self.position[0]+self.center[0],self.position[1]+self.center[1])
+      #the create hitbox from it
+      hitBox = pygame.Rect((moving_center[0]-3, moving_center[1]-3), (6, 6))
 
-      hitBox = pygame.Rect((self.position), (self.image.get_width(), self.image.get_height()))
-
-###################### ASK ABOUT LR COLLISIONS
       hit=False
       for block in colliders:
          if hitBox.colliderect(block):
-            #print("hi")
+            print("hi")
             hit = True
       
       for block in targets:
          if hitBox.colliderect(block.getHitBox()):
             hit=True
+            print("hi!!")
 
       super().update(seconds)
       return hit
       
-      
-   
+
+   def get_center(self):
+      '''Returns the moving center of the arrow -- for collisions with target and wall.'''
+      moving_center = (self.position[0]+self.center[0],self.position[1]+self.center[1])
+      #the create hitbox from it
+      hitBox = pygame.Rect((moving_center[0]-3, moving_center[1]-3), (6, 6))
+      return hitBox
    
   

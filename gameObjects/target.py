@@ -27,8 +27,9 @@ class Target(Drawable):
       super().update(seconds) 
 
       hitBox = self.getHitBox()
-      arrow_hitBox = pygame.Rect((arrow.position), (arrow.image.get_width(), arrow.image.get_height()))
-      #
+      #arrow_hitBox = pygame.Rect((arrow.position), (arrow.image.get_width(), arrow.image.get_height()))
+      arrow_hitBox = arrow.get_center()
+     
       # print("hi")
       #print(hitBox.colliderect(arrow_hitBox))
       
