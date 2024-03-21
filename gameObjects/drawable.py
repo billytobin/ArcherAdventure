@@ -1,3 +1,4 @@
+import pygame
 from utils import SpriteManager, SCALE, RESOLUTION, vec
 
 
@@ -30,16 +31,37 @@ class Drawable(object):
         
         return newPos
     
-    def __init__(self, position=vec(0,0), fileName="", offset=None):
+    def __init__(self, position=vec(0,0), fileName="", offset=None, angle=0, rotate=0):
         if fileName != "":
             self.image = SpriteManager.getInstance().getSprite(fileName, offset)
-        
+            if rotate != 0:
+                self.unrotated = SpriteManager.getInstance().getSprite(fileName, offset)
         self.position  = vec(*position)
         self.imageName = fileName
-    
+        self.angle = angle
+        #for Bow
+        # if self.angle == 0:
+        #     self.rotate =  False
+        # else:
+        #     self.rotate= True
+        self.rotate=False
+        #print(self.angle)
+        
+    def setDrawPosition(self):
+        if self.rotate:
+            center = vec(*self.unrotated.get_rect().center)
+            self.image = pygame.transform.rotate(self.unrotated, self.angle)
+            rotatedCenter = vec(*self.image.get_rect().center)
+            self.drawPosition = self.position - center - rotatedCenter
+            #print("adf")    
+        else:
+            self.drawPosition = self.position
+
     def draw(self, drawSurface):
-        drawSurface.blit(self.image, list(map(int, self.position - Drawable.CAMERA_OFFSET)))
+        self.setDrawPosition()
             
+        drawSurface.blit(self.image, list(map(int, self.drawPosition)))
+       
     def getSize(self):
         return vec(*self.image.get_size())
     
@@ -61,5 +83,5 @@ class Drawable(object):
     
     def doesCollideList(self, others):
         rects = [r.getCollisionRect() for r in others]
-        print(rects)
+        #print(rects)
         return self.getCollisionRect().collidelist(rects)   

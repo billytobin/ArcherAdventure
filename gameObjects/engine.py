@@ -27,8 +27,9 @@ class GameEngine(object):
         self.ledge1 = pygame.Rect(0,360, 200,10)
         self.ledge2 = pygame.Rect(300,280,100,10)
         self.ledge3 = pygame.Rect(100,200,100,10)
+        self.ledge4 = pygame.Rect(50,350,10,100)
 
-        self.colliders = [self.floor,self.ledge1,self.ledge2, self.ledge3]
+        self.colliders = [self.floor,self.ledge1,self.ledge2, self.ledge3, self.ledge4]
 
         #targets 
         self.t1 = Target((10,200),1)

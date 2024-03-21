@@ -11,12 +11,14 @@ import numpy as np
 
 class Arrow(Drawable):
    def __init__(self, position,angle):
-      super().__init__(position, "arrowMed.png")
+      super().__init__(position, "arrowMed.png", angle=angle*-180/np.pi)
 
       #setting speed and direction
       self.speed=400
-   
 
+      # self.angle = 0
+      self.rotated_image = pygame.transform.rotate(self.image, angle*-180/np.pi)
+      
       #new velocity
       self.velocity = vec(np.cos(angle)*self.speed, np.sin(angle)* self.speed)
         
@@ -32,9 +34,11 @@ class Arrow(Drawable):
    def updateMovement(self):
       #keep it going after unpause
       pass
-      
 
-   
+   def draw(self, drawSurface):
+            
+      drawSurface.blit(self.rotated_image, list(map(int, self.position)))
+      
 
    def update(self, seconds, colliders, targets):
        
