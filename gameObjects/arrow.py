@@ -58,13 +58,13 @@ class Arrow(Drawable):
       hit=False
       for block in colliders:
          if hitBox.colliderect(block):
-            print("hi")
+            #print("hi")
             hit = True
       
       for block in targets:
          if hitBox.colliderect(block.getHitBox()):
             hit=True
-            print("hi!!")
+           # print("hi!!")
 
       super().update(seconds)
       return hit

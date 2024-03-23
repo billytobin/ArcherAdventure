@@ -20,7 +20,7 @@ class MobileGravity(Mobile):
         self.UD.update(seconds)
 
         #handle collisions with each thing in colliders
-        hitBox = pygame.Rect((self.position), (self.image.get_width(), self.image.get_height()))
+        #hitBox = pygame.Rect((self.position), (self.image.get_width(), self.image.get_height()))
         #print(hitBox)
         hitBox = pygame.Rect((self.position[0]+OFFSETS[0], self.position[1]+OFFSETS[1]), (OFFSETS[2],OFFSETS[3]))
         #print(hitBox)

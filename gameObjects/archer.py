@@ -1,6 +1,8 @@
-from . import MobileGravity
+from . import MobileGravity, SpriteManager
 from FSMs import WalkingFSM
 from utils import vec, RESOLUTION
+import math
+
 
 from pygame.locals import *
 
@@ -18,6 +20,7 @@ class Archer(MobileGravity):
       self.nFrames = 2
       self.shoot_time = 0.5
       self.timer = 0
+      self.bow =SpriteManager.getInstance().getSprite("bow.png")
       
       self.nFramesList = {
          "moving"   : 8,
@@ -42,6 +45,14 @@ class Archer(MobileGravity):
       
       
    def handleEvent(self, event):
+
+      # if event.type == pygame.MOUSEMOTION:
+      #    mousePos = vec(*event.pos)
+      #    self._angle = math.atan2(*(mousePos - (self.getPosition() + vec(*self.getCenter()))).normalize()) \
+      #       - math.pi / 2
+
+
+
       if event.type == KEYDOWN:
          if event.key == K_w and self.UD != "jumping" and self.UD != "falling":
              self.UD.on_enter_jumping()
