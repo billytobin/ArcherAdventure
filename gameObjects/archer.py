@@ -1,6 +1,6 @@
 from . import MobileGravity, SpriteManager
 from FSMs import WalkingFSM
-from utils import vec, RESOLUTION
+from utils import vec, RESOLUTION, SCALE
 import math
 
 
@@ -20,7 +20,9 @@ class Archer(MobileGravity):
       self.nFrames = 2
       self.shoot_time = 0.5
       self.timer = 0
-      self.bow =SpriteManager.getInstance().getSprite("bow.png")
+      self.bow =SpriteManager.getInstance().getSprite("bow1.png")
+      self.bowCopy = self.bow.copy()
+      self._angle = 0
       
       self.nFramesList = {
          "moving"   : 8,
@@ -46,10 +48,21 @@ class Archer(MobileGravity):
       
    def handleEvent(self, event):
 
-      # if event.type == pygame.MOUSEMOTION:
-      #    mousePos = vec(*event.pos)
-      #    self._angle = math.atan2(*(mousePos - (self.getPosition() + vec(*self.getCenter()))).normalize()) \
-      #       - math.pi / 2
+      if event.type == pygame.MOUSEMOTION:
+         mousePos = vec(*event.pos)
+         self._angle = math.atan2(*(mousePos - (self.position))) - math.pi / 2 # .normalize()) \
+         #print(self._angle)
+         self._angle *= -90
+         self._angle-=45
+
+         position = self.position +vec(24,24)
+         click_location = vec(*event.pos) // SCALE -vec(0,0)
+
+         dx = click_location[0] - position[0]
+         dy = click_location[1] - position[1]
+         self._angle = math.atan2(dy,dx)
+         self._angle *= -180/np.pi
+         self._angle-=45
 
 
 
@@ -98,6 +111,14 @@ class Archer(MobileGravity):
       if not pressed[pygame.K_RIGHT] and self.LR == "right":
          self.LR.stop()
 
+
+   def draw(self, drawSurface):
+        self.setDrawPosition()
+            
+        drawSurface.blit(self.image, list(map(int, self.drawPosition)))
+        self.bowCopy= pygame.transform.rotate(self.bow, int(self._angle))
+        drawSurface.blit(self.bowCopy,list(map(int, (self.drawPosition+vec(12,12)) )))
+    
       
 
    
