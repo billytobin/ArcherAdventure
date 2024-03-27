@@ -44,6 +44,9 @@ class GameEngine(object):
         self.active_targets=[]#[self.t1,self.t2, self.t3]#,self.t4,self.t5]
         self.timer = 0.5
 
+        self.bow_timer=0
+        self.bow_timer_start=False
+
         self.target_timer_max=1.5
         self.target_timer=0
 
@@ -79,7 +82,12 @@ class GameEngine(object):
 
         #print(self.archer.timer)
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.bow_timer_start=True
+
+
         if event.type == pygame.MOUSEBUTTONUP:
+            
             
             position = self.archer.position +vec(24,24)
             click_location = vec(*event.pos) // SCALE -vec(0,0)
@@ -90,10 +98,16 @@ class GameEngine(object):
             #rads %= 2*pi
             #print(str(self.archer.timer) + "       xxxxxxxxxxxxxxxxxxxxxxxxxx")#, angle)
             if self.archer.timer == self.archer.shoot_time:
-                self.arrows.append(Arrow(position, angle) )
+                speed= 200
+                if self.bow_timer>0.4:
+                    speed = 500 * self.bow_timer
+                elif self.bow_timer>1.0:
+                    speed =600
+                self.arrows.append(Arrow(position, angle, speed) )
                 #print(str(self.arrows) + ' self.arrows')
                 
-            #print("hi up")
+            self.bow_timer_start=False
+            self.bow_timer=0
         
         
         
@@ -144,6 +158,8 @@ class GameEngine(object):
         
 
        #self.active_targets.append(target)
+        if self.bow_timer_start:
+            self.bow_timer+= seconds
         
         
         Drawable.updateOffset(self.archer, self.size)
