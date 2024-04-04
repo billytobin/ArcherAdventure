@@ -58,7 +58,8 @@ class Arrow(Drawable):
       hitBox = pygame.Rect((moving_center[0]-3, moving_center[1]-3), (6, 6))
 
       hit=False
-      for block in colliders:
+      for blck in colliders:
+         block=blck.getCollisionRect()
          if hitBox.colliderect(block):
             #print("hi")
             hit = True
