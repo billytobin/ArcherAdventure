@@ -28,7 +28,8 @@ class MobileGravity(Mobile):
 
         fallFlag = True
         #print(hitBox[3])
-        for block in colliders:
+        for blck in colliders:
+            block=blck.getCollisionRect()
             clip_box = hitBox.clip(block)
             #print("clip"+ str(clip_box))
 
@@ -46,10 +47,11 @@ class MobileGravity(Mobile):
 
             if self.UD != "grounded" and hitBox.colliderect(block):
 ###########  #if self.UD == "grounded" and self.doesCollide(block):
-                if block.y >= (hitBox.y+hitBox.height-5) and self.UD == "falling":
+                if block.y >= (hitBox.top+hitBox.height-5) and self.UD == "falling":
                     #print(self.position[1])
                     self.UD.land()
-                    #self.position[1] -= clip_box.height
+                    #print("landed")
+                    #self.position[1] -= clip_box.height -5
                     self.position[1] = block.y - hitBox[3]-24
                     #print(self.position[1])
                     # self.UD.land()
@@ -67,8 +69,10 @@ class MobileGravity(Mobile):
             if self.UD == "grounded" and hitBox.colliderect(block):
                 #if block.x<hitBox.x and (block.x+block.width) > hitBox.x:
 ############ #if self.UD == "grounded" and self.doesCollide(block):
-                if block.y>hitBox.y:
+                #print(block.y, hitBox.top)
+                if block.y>=hitBox.top:
                     fallFlag= False
+                    #print("yes")
            ### if moving left, collide with wall, and the wall is to left, stop
             # if self.LR =="left" and hitBox.colliderect(block) and block.x<hitBox.x and (block.x+block.width) > hitBox.x and clip_box.height >=5: # and (clip_box.x+clip_box.width)==block.y:
             #     #print(clip_box)

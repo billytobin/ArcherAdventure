@@ -1,5 +1,5 @@
 from . import Mobile,Drawable
-from FSMs import WalkingFSM
+from FSMs import WalkingFSM, GravityFSM
 from utils import vec, magnitude, scale, RESOLUTION
 
 
@@ -15,6 +15,8 @@ class Arrow(Drawable):
 
       #setting speed and direction
       self.speed=speed
+
+      #self.UD = GravityFSM(self)
 
       # self.angle = 0
       self.rotated_image = pygame.transform.rotate(self.image, angle*-180/np.pi)

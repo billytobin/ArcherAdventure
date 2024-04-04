@@ -6,7 +6,7 @@ import random
 
 from math import atan2, degrees, pi
 
-from utils import vec, RESOLUTION, SCALE
+from utils import vec, RESOLUTION, SCALE, WORLD_SIZE
 import numpy as np
 
 class GameEngine(object):
@@ -22,14 +22,27 @@ class GameEngine(object):
         #things that can collide
         self.colliders = []
 
-        self.floor = pygame.Rect(0, 450,500,20)
+        #self.floor = pygame.Rect(0, 450,500,20)
+        #self.floor = pygame.Rect(0, 0,490,490)
 
-        self.ledge1 = pygame.Rect(0,360, 200,10)
-        self.ledge2 = pygame.Rect(300,280,100,10)
-        self.ledge3 = pygame.Rect(100,200,100,10)
-        self.ledge4 = pygame.Rect(50,350,10,100)
+        #self.ledge1 = pygame.Rect(0,360, 200,10)
+        #self.ledge2 = pygame.Rect(300,280,100,10)
+        #self.ledge3 = pygame.Rect(100,200,100,10)
+        #self.ledge4 = pygame.Rect(50,350,10,100)
 
-        self.colliders = [self.floor,self.ledge1,self.ledge2, self.ledge3, self.ledge4]
+
+        # self.floor = []
+        # for i in range(0, int(WORLD_SIZE[0]), 16):
+        #     self.floor.append(Drawable(vec(i, WORLD_SIZE[1]-16*2), "grass.png"))
+
+        # self.ledge=[]
+
+        self.drawLevel("level1")
+        
+
+        #self.colliders = [self.ledge1,self.ledge2, self.ledge3, self.ledge4]
+        #self.colliders=self.floor
+        print(self.colliders)
 
         #targets 
         self.t1 = Target((10,200),1)
@@ -57,6 +70,18 @@ class GameEngine(object):
         self.arrows = []
         
     
+    def drawLevel(self, levelName):
+        f = open("utils/levels/"+levelName+".txt")
+        for line_num, line in enumerate(f):
+            for char_num, char in enumerate(line):
+                if char == "x":
+                    self.colliders.append(Drawable(vec(char_num*16, line_num*16), "grass.png"))
+                elif char == "a":
+                    self.colliders.append(Drawable(vec(char_num*16, line_num*16), "wood.png"))
+
+    
+
+
     def draw(self, drawSurface):        
         self.background.draw(drawSurface)
         
@@ -75,7 +100,8 @@ class GameEngine(object):
             i.draw(drawSurface)
 
         for i in self.colliders:
-            pygame.draw.rect(drawSurface,(0,0,0), i)
+            #pygame.draw.rect(drawSurface,(0,0,0), i)
+            i.draw(drawSurface)
             
     def handleEvent(self, event):
         self.archer.handleEvent(event)
@@ -89,7 +115,7 @@ class GameEngine(object):
         if event.type == pygame.MOUSEBUTTONUP:
             
             
-            position = self.archer.position +vec(24,24)
+            position = self.archer.position +vec(18,20)
             click_location = vec(*event.pos) // SCALE -vec(0,0)
 
             dx = click_location[0] - position[0]
@@ -99,10 +125,10 @@ class GameEngine(object):
             #print(str(self.archer.timer) + "       xxxxxxxxxxxxxxxxxxxxxxxxxx")#, angle)
             if self.archer.timer == self.archer.shoot_time:
                 speed= 200
-                if self.bow_timer>0.4:
-                    speed = 500 * self.bow_timer
-                elif self.bow_timer>1.0:
-                    speed =600
+                if self.bow_timer>0.1:
+                    speed = 500 * self.bow_timer + 200
+                elif self.bow_timer>0.8:
+                    speed = 600
                 self.arrows.append(Arrow(position, angle, speed) )
                 #print(str(self.arrows) + ' self.arrows')
                 
