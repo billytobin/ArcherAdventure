@@ -12,34 +12,30 @@ import numpy as np
 class GameEngine(object):
     import pygame
 
-    def __init__(self):       
-        self.archer = Archer((300,300))
+    def __init__(self):   
+
+        self.level=1    
+        
         self.size = vec(*RESOLUTION)
         #self.background = Drawable((0,0), "background.png")
-        self.background = Drawable((0,0), "forest.jpg")
+        
 
 
         #things that can collide
-        self.colliders = []
-        self.targets=[]
-
-        self.drawLevel("level1")
         
 
-        #self.colliders = [self.ledge1,self.ledge2, self.ledge3, self.ledge4]
-        #self.colliders=self.floor
-        #print(self.colliders)
+        
 
-        #targets 
-        # self.t1 = Target((10,200),1)
-        # self.t2=Target((50, 300),1)
-        # self.t3=Target((300,20),1)
-        # self.t4=Target((200,50),1)
-        # self.t5=Target((390,70),1)
-        # self.t6=Target((340,300),1)
+        
+        self.font = pygame.font.SysFont("Arial", 50)
 
-
-        #self.targets = [self.t1,self.t2, self.t3,self.t4,self.t5,self.t6]
+        #arrows
+        
+    def startLevel(self):
+        self.drawLevel("level"+str(self.level))    
+    
+    def drawLevel(self, levelName):
+        self.background = Drawable((0,0), "forest.jpg")
         
         self.active_targets=[]#[self.t1,self.t2, self.t3]#,self.t4,self.t5]
         self.timer = 0.5
@@ -51,13 +47,9 @@ class GameEngine(object):
         self.target_timer=0
 
         self.count=0
-        self.font = pygame.font.SysFont("Arial", 50)
-
-        #arrows
         self.arrows = []
-        
-    
-    def drawLevel(self, levelName):
+        self.colliders = []
+        self.targets=[]
         f = open("utils/levels/"+levelName+".txt")
         for line_num, line in enumerate(f):
             for char_num, char in enumerate(line):
@@ -67,6 +59,8 @@ class GameEngine(object):
                     self.colliders.append(Drawable(vec(char_num*16, line_num*16), "wood.png"))
                 elif char == "t":
                     self.targets.append(Target(vec(char_num*16, line_num*16),1))
+                elif char == "s":
+                    self.archer = Archer(vec(char_num*16, line_num*16))
 
     
 

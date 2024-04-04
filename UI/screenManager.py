@@ -19,11 +19,11 @@ class ScreenManager(object):
         self.lose_text.position = vec(*midpoint)
         
         self.mainMenu = EventMenu("forest.jpg", fontName="default8")
-        self.mainMenu.addOption("start", "Press 1 to start Game",
+        self.mainMenu.addOption("level1", "Press 1 to play Level 1",
                                  RESOLUTION // 2 - vec(0,50),
                                  lambda x: x.type == KEYDOWN and x.key == K_1,
                                  center="both")
-        self.mainMenu.addOption("exit", "Press 2 to exit Game",
+        self.mainMenu.addOption("level2", "Press 2 to play Level 2",
                                  RESOLUTION // 2 + vec(0,50),
                                  lambda x: x.type == KEYDOWN and x.key == K_2,
                                  center="both")
@@ -58,14 +58,16 @@ class ScreenManager(object):
         elif self.state == "mainMenu":
             choice = self.mainMenu.handleEvent(event)
             
-            if choice == "start":
+            if choice == "level1":
+                self.game.level=1
                 self.state.startGame()
-            elif choice == "exit":
-                return "exit"
+            elif choice == "level2":
+                self.game.level=2
+                self.state.startGame()
      
     
     def update(self, seconds):      
-        if self.state == "game":
+        if self.state == "game" or self.state=="game2":
             self.game.update(seconds)
             
         elif self.state == "mainMenu":

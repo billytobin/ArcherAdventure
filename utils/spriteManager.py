@@ -45,7 +45,7 @@ class SpriteManager(object):
       _TRANSPARENCY = ["arrowMed.png", "target.png", "targetSmaller.png","archer_SL.png", "bow1.png"]
       
       # A list of images that require to be loaded with a color key
-      _COLOR_KEY = ["waddleDee.png"]
+      _COLOR_KEY = []
       
       def __init__(self):
          # Stores the surfaces indexed based on file name
