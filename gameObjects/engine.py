@@ -21,7 +21,7 @@ class GameEngine(object):
 
         #things that can collide
         self.colliders = []
-
+        self.targets=[]
 
         self.drawLevel("level1")
         
@@ -31,15 +31,16 @@ class GameEngine(object):
         #print(self.colliders)
 
         #targets 
-        self.t1 = Target((10,200),1)
-        self.t2=Target((50, 300),1)
-        self.t3=Target((300,20),1)
-        self.t4=Target((200,50),1)
-        self.t5=Target((390,70),1)
-        self.t6=Target((340,300),1)
+        # self.t1 = Target((10,200),1)
+        # self.t2=Target((50, 300),1)
+        # self.t3=Target((300,20),1)
+        # self.t4=Target((200,50),1)
+        # self.t5=Target((390,70),1)
+        # self.t6=Target((340,300),1)
 
 
-        self.targets = [self.t1,self.t2, self.t3,self.t4,self.t5,self.t6]
+        #self.targets = [self.t1,self.t2, self.t3,self.t4,self.t5,self.t6]
+        
         self.active_targets=[]#[self.t1,self.t2, self.t3]#,self.t4,self.t5]
         self.timer = 0.5
 
@@ -64,6 +65,8 @@ class GameEngine(object):
                     self.colliders.append(Drawable(vec(char_num*16, line_num*16), "grass.png"))
                 elif char == "a":
                     self.colliders.append(Drawable(vec(char_num*16, line_num*16), "wood.png"))
+                elif char == "t":
+                    self.targets.append(Target(vec(char_num*16, line_num*16),1))
 
     
 
