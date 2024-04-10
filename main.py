@@ -7,6 +7,8 @@ def main():
     pygame.init()
     
     pygame.font.init()
+
+    #pygame.mouse.set_visible(False)
     
     
     #Get the screen

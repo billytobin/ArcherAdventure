@@ -1,6 +1,6 @@
 from . import Mobile,Drawable
 from FSMs import WalkingFSM, GravityFSM
-from utils import vec, magnitude, scale, RESOLUTION
+from utils import vec, magnitude, scale, RESOLUTION, SoundManager
 
 
 from pygame.locals import *
@@ -10,8 +10,11 @@ import numpy as np
 
 
 class Arrow(Drawable):
+
    def __init__(self, position,angle, speed):
       super().__init__(position, "arrowMed.png", angle=angle*-180/np.pi)
+
+      self.sound = SoundManager.getInstance().playSFX("whoosh.wav")
 
       #setting speed and direction
       self.speed=speed
