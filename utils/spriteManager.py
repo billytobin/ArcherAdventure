@@ -35,14 +35,16 @@ class SpriteManager(object):
       _SPRITE_SIZES = {
          "arrowMed.png" : (45,16),
          "targetSmaller.png" : (36,38),
-         "archer_SL.png" : (64,64)
+         "archer_SL.png" : (64,64),
+         "Samurai_Spritelist.png" : (64,64),
+         "Shinobi_Spritelist.png" : (64,64)
       }
       
       # A default sprite size
       _DEFAULT_SPRITE = (16,16)
       
       # A list of images that require to be loaded with transparency
-      _TRANSPARENCY = ["arrowMed.png", "target.png", "targetSmaller.png","archer_SL.png", "bow1.png"]
+      _TRANSPARENCY = ["arrowMed.png", "target.png", "targetSmaller.png","archer_SL.png", "bow1.png", "Shinobi_Spritelist.png","Samurai_Spritelist.png"]
       
       # A list of images that require to be loaded with a color key
       _COLOR_KEY = []

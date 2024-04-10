@@ -12,7 +12,9 @@ import numpy as np
 
 class Archer(MobileGravity):
    def __init__(self, position):
-      super().__init__(position, "archer_SL.png")
+      #super().__init__(position, "archer_SL.png")
+      super().__init__(position, "Shinobi_Spritelist.png")
+      #super().__init__(position, "Samurai_Spritelist.png")
         
       # Animation variables specific to archer character
       self.animate = True
