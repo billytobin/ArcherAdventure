@@ -12,10 +12,10 @@ import numpy as np
 
 class Archer(MobileGravity):
    def __init__(self, position):
-      #super().__init__(position, "archer_SL.png")
-      super().__init__(position, "Shinobi_Spritelist.png")
+      super().__init__(position, "archer_SL.png")
+      #super().__init__(position, "Shinobi_Spritelist.png")
       #super().__init__(position, "Samurai_Spritelist.png")
-        
+       
       # Animation variables specific to archer character
       self.animate = True
       self.framesPerSecond = 2 
@@ -23,7 +23,7 @@ class Archer(MobileGravity):
       self.shoot_time = 0.5
       self.timer = 0
       self.bow =SpriteManager.getInstance().getSprite("bow1.png")
-      self.bow_pivot = (2,6)
+      self.bow_pivot = (3,6)
       self.bowCopy = self.bow.copy()
       self._angle = 0
       

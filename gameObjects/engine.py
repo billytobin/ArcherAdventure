@@ -19,14 +19,6 @@ class GameEngine(object):
         self.size = vec(*RESOLUTION)
         #self.background = Drawable((0,0), "background.png")
         
-
-
-        #things that can collide
-        
-
-        
-
-        
         self.font = pygame.font.SysFont("Arial", 50)
 
         #arrows
@@ -107,11 +99,11 @@ class GameEngine(object):
             #rads %= 2*pi
             #print(str(self.archer.timer) + "       xxxxxxxxxxxxxxxxxxxxxxxxxx")#, angle)
             if self.archer.timer == self.archer.shoot_time:
-                speed= 200
-                if self.bow_timer>0.1:
-                    speed = 500 * self.bow_timer + 200
-                elif self.bow_timer>0.8:
-                    speed = 600
+                speed= 300
+                if self.bow_timer>0.01:
+                    speed = 800 * self.bow_timer + 300
+                elif self.bow_timer>0.5:
+                    speed = 800
                 self.arrows.append(Arrow(position, angle, speed) )
                 #print(str(self.arrows) + ' self.arrows')
                 
@@ -172,5 +164,8 @@ class GameEngine(object):
         
         
         Drawable.updateOffset(self.archer, self.size)
+
+
+        
     
 
